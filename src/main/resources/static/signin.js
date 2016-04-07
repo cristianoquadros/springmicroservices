@@ -1,6 +1,6 @@
 angular.module('app')
-	.controller('navigation',['$rootScope', '$http', '$location', '$window',
-		function($rootScope, $http, $location, $window) {
+	.controller('navigation',['$rootScope', '$http', '$location', 
+		function($rootScope, $http, $location) {
 			var self = this;
 			$rootScope.authenticated = false;
 			
@@ -31,19 +31,22 @@ angular.module('app')
 			self.login = function() {
 				authenticate(self.credentials, function() {
 					if ($rootScope.authenticated) {
-						$window.location.href = "/";
 						self.error = false;
 					} else {
-						$window.location.href = "/login.html";
 						self.error = true;
 					}
+					$location.path("/");
 				});
 			};
 			
 			self.logout = function() {
-			  $http.post('/logout', {}).finally(function() {
-			    $rootScope.authenticated = false;
-			    $location.path("/");
-			  });
+				  $http.post('logout', {})
+				  	.success(function() {
+				  		$rootScope.authenticated = false;
+				  		$location.path("/");
+				  	})
+				  	.error(function(data) {
+				  		$rootScope.authenticated = false;
+				  	});
 			}					
 	}]);

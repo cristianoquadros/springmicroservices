@@ -35,15 +35,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public Principal user(Principal user) {
 		return user;
-	}	
+	}		
 	
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic()
 			.and().authorizeRequests()
-			.antMatchers("/login.html", "/user", "/*.js", "/*.css", "/index.html").permitAll()
+			.antMatchers("/","/login.html", "/user", "/*.js", "/*.css", "/index.html", "/views/home.html", "/resources/**").permitAll()
 			.anyRequest().authenticated()
+			.and().logout().logoutSuccessUrl("/")
 			.and().csrf().csrfTokenRepository(csrfTokenRepository())
 			.and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 	}

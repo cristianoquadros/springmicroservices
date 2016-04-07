@@ -18,5 +18,4 @@ public class SecurityController {
 		model.put("content", "Hello World");
 		return model;
 	}
-
 }

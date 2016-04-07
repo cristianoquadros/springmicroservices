@@ -20,11 +20,15 @@
 
     <!-- Custom styles for this template -->
     <link href="./css/navbar-static-top.css" rel="stylesheet">
-
- 	<script type="text/javascript" src="chrome-extension://aadgmnobpdmgmigaicncghmmoeflnamj/ng-inspector.js"></script>
+    <link href="./css/signin.css" rel="stylesheet">
+    <style>
+	    [ng\:cloak], [ng-cloak], .ng-cloak {
+		  display: none !important;
+		}
+    </style>
 </head>
 
- <body>
+ <body ng-cloak>
 
     <!-- Static navbar -->
     <nav class="navbar navbar-default navbar-static-top">
@@ -38,8 +42,8 @@
           </button>
           <a class="navbar-brand" href="http://getbootstrap.com/examples/navbar-static-top/#">Project name</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+        <div id="navbar" class="navbar-collapse collapse" ng-controller="navigation as controller">
+          <ul class="nav navbar-nav" ng-if="authenticated">
             <li class="active"><a href="http://getbootstrap.com/examples/navbar-static-top/#">Home</a></li>
             <li><a href="http://getbootstrap.com/examples/navbar-static-top/#about">About</a></li>
             <li><a href="http://getbootstrap.com/examples/navbar-static-top/#contact">Contact</a></li>
@@ -56,28 +60,22 @@
               </ul>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right"  ng-if="authenticated">
             <li><a href="http://getbootstrap.com/examples/navbar/">Default</a></li>
             <li class="active"><a href="http://getbootstrap.com/examples/navbar-static-top/">Static top <span class="sr-only">(current)</span></a></li>
-            <li><a href="http://getbootstrap.com/examples/navbar-fixed-top/">Fixed top</a></li>
+            <li><a href="#" ng-click="controller.logout()">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-
-    <div class="container" ng-controller="home as controller">
-		<div ng-show="authenticated">
-		    <p>The ID is {{controller.greeting.id}}</p>
-		    <p>The content is {{controller.greeting.content}}</p>
-		</div>
-		<div  ng-show="!authenticated">
-		    <p>Login to see your greeting</p>
-		</div>    
+	<!-- container -->
+    <div class="container" ng-if="authenticated"  ng-view>
     </div>
-
-
-    </div> <!-- /container -->
+    
+    <div class="container" ng-controller="navigation as controller" ng-include="'login.html'" ng-if="!authenticated">
+    </div>
+	<!-- /container -->
 
 
     <!-- Bootstrap core JavaScript
@@ -91,5 +89,6 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>        
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>	    
 	<script src="./app.js" ></script>  
+	<script src="./signin.js" ></script>
 </body>
 </html>

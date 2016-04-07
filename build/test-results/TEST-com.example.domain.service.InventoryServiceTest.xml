@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.domain.service.InventoryServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-03-31T20:07:20" hostname="STFPOAC024493-L" time="0.127">
-  <properties/>
-  <testcase name="testIsValidInventory" classname="com.example.domain.service.InventoryServiceTest" time="0.127"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
