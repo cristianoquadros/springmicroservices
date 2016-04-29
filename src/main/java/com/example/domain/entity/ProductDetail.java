@@ -3,7 +3,7 @@ package com.example.domain.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.example.config.layers.BaseEntity;
+import com.example.domain.shared.BaseEntity;
 
 @Entity
 public class ProductDetail implements BaseEntity {

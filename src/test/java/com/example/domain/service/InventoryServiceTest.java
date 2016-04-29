@@ -1,24 +1,19 @@
 package com.example.domain.service;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.example.domain.service.InventoryService;
-import com.example.integration.repository.InventoryRepository;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.when;
+import com.example.domain.entity.Cliente;
 
 public class InventoryServiceTest {
 	
     @InjectMocks
-    private InventoryService inventoryService;
-
-    @Mock
-    private InventoryRepository inventoryRepository;	
+    private ClienteService clienteService;	
     
     @Before
     public void initMocks(){
@@ -26,8 +21,18 @@ public class InventoryServiceTest {
     }    
 
 	@Test
-	public void testIsValidInventory() {
-		when(inventoryRepository.count()).thenReturn(10L);
-		assertThat(inventoryService.isValidInventory("1"), is(true));		
+	public void testValidaCamposFormulario() {
+		Cliente cliente = new Cliente();
+		
+		assertThat(clienteService.validaCamposFormulario(cliente), is(false));		
+		cliente.setNome("Elvis Presley");
+		assertThat(clienteService.validaCamposFormulario(cliente), is(false));
+		
+		cliente.setEndereco("Rua Nova, 3333");
+		assertThat(clienteService.validaCamposFormulario(cliente), is(false));		
+		
+		cliente.setNumeroDocumento("12345678903");
+		assertThat(clienteService.validaCamposFormulario(cliente), is(true));			
 	}
+	
 }

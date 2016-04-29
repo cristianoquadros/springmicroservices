@@ -3,7 +3,7 @@ package com.example.domain.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.example.config.layers.BaseEntity;
+import com.example.domain.shared.BaseEntity;
 
 @Entity
 public class User implements BaseEntity{
@@ -11,11 +11,18 @@ public class User implements BaseEntity{
 	
 	private  Long id;
 	private String user;
+	private String role;
 	private String pass;
 	
 	@Id
 	public Long getId() {
 		return id;
+	}
+	public User(Long id, String user, String role) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.role = role;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -37,5 +44,13 @@ public class User implements BaseEntity{
 	public static class User_ {
 	    public static String id = "id";
 	    public static String user = "user"; 
+	    public static String role = "role"; 
+	}
+
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 }
