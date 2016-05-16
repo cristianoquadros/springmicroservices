@@ -1,0 +1,15 @@
+<div class="alert alert-danger" ng-show="controller.error">
+  <strong>Erro!</strong> Usuário e/ou senha invalido(s).
+</div>
+
+<form class="form-signin" ng-submit="controller.login()">
+	<h2 class="form-signin-heading">Autenticação</h2>		
+	<label for="username" class="sr-only">Email address</label>
+	<input type="text" id="username" name="username" class="form-control" placeholder="User" required="required"
+		ng-model="controller.credentials.username"></input>
+	<label for="password" class="sr-only">Password</label>
+	<input type="password" id="password" name="password" class="form-control" placeholder="Password"
+		ng-model="controller.credentials.password"></input>
+	
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+</form>

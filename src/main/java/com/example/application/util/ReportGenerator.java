@@ -4,6 +4,7 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 import static net.sf.dynamicreports.report.builder.DynamicReports.report;
 import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
+import static net.sf.dynamicreports.report.builder.DynamicReports.export;
 
 import java.awt.Color;
 import java.io.File;
@@ -17,6 +18,7 @@ import com.example.domain.entity.User.User_;
 import com.example.domain.shared.BaseEntity;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import net.sf.dynamicreports.jasper.builder.export.JasperXlsExporterBuilder;
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
 import net.sf.dynamicreports.report.builder.component.PageXofYBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -42,14 +44,12 @@ public class ReportGenerator {
  	   users.add(new User(3L, "Leticia", "Desenvolvedora Java/PHP"));
  	   users.add(new User(4L, "Tiago", "Desenvolvedora Java/PHP"));
  	   
- 	   String path = buildDynamicPdf("report", "Relatório de Usuários", 
- 			   			users, 
- 			   			col("Código", User_.id, Long.class),
- 			   			col("Usuário", User_.user, String.class),
- 			   			col("Cargo", User_.role, String.class));
- 	   
- 	   System.out.println(path);
- 	   
+ 	   buildDynamicPdf("report", "Relatório de Usuários", 
+   			users, 
+   			col("Código", User_.id, Long.class),
+   			col("Usuário", User_.user, String.class),
+   			col("Cargo", User_.role, String.class)); 	   
+
  	   Map<String, Object> maps = new HashMap<>();
  	   maps.put("cliente", "Teste Relatório");
  	   
@@ -82,41 +82,56 @@ public class ReportGenerator {
     }  
     
     
+    private static JasperReportBuilder createDynamicReport(String filename, String title, List<BaseEntity> list, ColumnBuilder... cols){
+    	
+		StyleBuilder boldStyle         = stl.style().bold();
+		StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment (HorizontalTextAlignment.CENTER);
+		StyleBuilder titleStyle        = stl.style(boldCenteredStyle).setPadding(15).setFontSize(14);
+		StyleBuilder columnTitleStyle  = stl.style(boldCenteredStyle).setBorder(stl.pen1Point()).setBackgroundColor(Color.LIGHT_GRAY);
+		PageXofYBuilder paginator      = cmp.pageXofY().setStyle(boldCenteredStyle).setFormatExpression("{0} de {1}");
+	      
+		return report()
+		       .setColumnTitleStyle(columnTitleStyle)
+		       .highlightDetailEvenRows()
+		       .columns(cols)
+		       .title(cmp.text(title).setStyle(titleStyle))
+		       .pageFooter(paginator)
+		       .setDataSource(list);
+    }
     
-    public static String buildDynamicPdf(String filename, String title, List<BaseEntity> list, ColumnBuilder... cols) {    
-	      StyleBuilder boldStyle         = stl.style().bold();
-	      StyleBuilder boldCenteredStyle = stl.style(boldStyle).setHorizontalTextAlignment (HorizontalTextAlignment.CENTER);
-	      StyleBuilder titleStyle        = stl.style(boldCenteredStyle).setPadding(15).setFontSize(14);
-	      StyleBuilder columnTitleStyle  = stl.style(boldCenteredStyle).setBorder(stl.pen1Point()).setBackgroundColor(Color.LIGHT_GRAY);
-	      PageXofYBuilder paginator      = cmp.pageXofY().setStyle(boldCenteredStyle).setFormatExpression("{0} de {1}");
-          File file = null;
+    
+    public static void buildDynamicPdf(String filename, String title, List<BaseEntity> list, ColumnBuilder... cols) {    
+	      try {
+	    	  createDynamicReport(filename, title, list, cols).show();
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	   }
+    
+    
+    public static String buildDynamicXLS(String filename, String title, List<BaseEntity> list, ColumnBuilder... cols) {    
+        File file = null;
 	      
 	      try {
 	    	  file = File.createTempFile(filename + "-", ".xls");
 	    	  
-	    	  JasperReportBuilder report = report()
-			           .setColumnTitleStyle(columnTitleStyle)
-			           .highlightDetailEvenRows()
-			           .columns(cols)
-			           .title(cmp.text(title).setStyle(titleStyle))
-			           .pageFooter(paginator)
-			           .setDataSource(list);
-	          report.show();
-//	    	  JasperXlsExporterBuilder xlsExporter = 
-//	    			  export.xlsExporter(file)
-//		                 .setDetectCellType(true)
-//		                 .setIgnorePageMargins(true)
-//		                 .setWhitePageBackground(false)
-//		                 .setRemoveEmptySpaceBetweenColumns(true);	    	  
-//	    	  
-//	           report.toXls(xlsExporter);
+	    	  JasperReportBuilder report = createDynamicReport(filename, title, list, cols);
+	    	  
+	    	  JasperXlsExporterBuilder xlsExporter = 
+    			  export.xlsExporter(file)
+	                 .setDetectCellType(true)
+	                 .setIgnorePageMargins(true)
+	                 .setWhitePageBackground(false)
+	                 .setRemoveEmptySpaceBetweenColumns(true);	    	  
+	    	  
+	           report.toXls(xlsExporter);
 
 
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
-          return file==null?null:file.getAbsolutePath();
-	   }
+        return file==null?null:file.getAbsolutePath();
+	   }    
     
     
        public static ColumnBuilder col(String title, String field, Class dataType){

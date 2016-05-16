@@ -10,8 +10,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages={"com.example.config", "com.example.controller", "com.example.domain.service", "com.example.domain.domain"}, lazyInit=true)
+@ComponentScan(basePackages=
+		{"com.example.application.config", 
+		 "com.example.application.controller", 
+		 "com.example.domain.service", 
+		 "com.example.domain.domain"}, 
+   lazyInit=true)
+
 public class DemoApplication {
+	
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(DemoApplication.class, args);
 		//listBeans(ctx);

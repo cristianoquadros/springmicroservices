@@ -1,6 +1,8 @@
 package com.example.domain.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.example.domain.shared.BaseEntity;
@@ -9,20 +11,26 @@ import com.example.domain.shared.BaseEntity;
 public class User implements BaseEntity{
 	private static final long serialVersionUID = 7713394845972669093L;
 	
-	private  Long id;
+	private Long id;
 	private String user;
 	private String role;
 	private String pass;
 	
-	@Id
-	public Long getId() {
-		return id;
+	public User() {
+		super();
 	}
+	
 	public User(Long id, String user, String role) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.role = role;
+	}	
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO) 
+	public Long getId() {
+		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;

@@ -1,0 +1,29 @@
+<div class="page-header">
+    <h2>User Edit</h2>
+</div>        
+
+<!-- User Panel -->
+
+
+<form name="mainForm" class="form-horizontal" role="form" ng-submit="submitForm()" novalidate>
+
+    <div ng-messages="mainForm.input-user.$error" class="alert alert-danger" ng-if="mainForm.$error && !mainForm.$pristine">
+        <div ng-message="required">User field is required!</div>
+    </div>                                      
+    
+    <div class="form-group">
+        <div class="col-xs-5">
+            <label for="input-user">User</label>
+            <input name="input-user" type="text" ng-model="user.user" class="form-control" required>
+        </div>   
+    </div>
+    
+    <div class="form-group">
+        <div class="col-xs-2">
+            <label for="input-role">Role</label>
+            <input name="input-role" type="text" ng-model="user.role" class="form-control">
+        </div>   
+    </div>                                  
+
+     <input type="submit" id="submit" value="{{!user.id || 0 === user.id.length?'New':'Edit'}}" class="btn btn-primary" />     
+</form>
