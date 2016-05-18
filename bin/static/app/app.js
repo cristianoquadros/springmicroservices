@@ -46,6 +46,7 @@
             go : go
         };        
         function go(path) {
+        		$location.search({});
                 $location.path( path ); 
         }
         return service;    

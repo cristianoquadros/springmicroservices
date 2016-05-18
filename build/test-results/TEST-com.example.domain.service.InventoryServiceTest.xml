@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.domain.service.InventoryServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-16T18:15:00" hostname="STFPOAC024493-L" time="0.004">
+<testsuite name="com.example.domain.service.InventoryServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-05-18T16:15:26" hostname="STFPOAC024493-L" time="0.005">
   <properties/>
-  <testcase name="testValidaCamposFormulario" classname="com.example.domain.service.InventoryServiceTest" time="0.004"/>
+  <testcase name="testValidaCamposFormulario" classname="com.example.domain.service.InventoryServiceTest" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

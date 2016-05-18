@@ -1,10 +1,10 @@
 package com.example.application.controller;
 
-import javax.websocket.server.PathParam;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,8 +64,12 @@ public class UserController {
 	 * 
 	 */		
 	@RequestMapping(value="save", method=RequestMethod.POST)
-	public void save(@RequestBody User user){
+	public ResponseEntity<User> save(@RequestBody User user){
+		if (user.getUser().equals("erro")){
+			return new ResponseEntity<User>(HttpStatus.PRECONDITION_FAILED);
+		}
 		userService.saveOrUpdateUser(user);		
+		return new ResponseEntity<User>(HttpStatus.OK);
 	}	
 	
 	/**

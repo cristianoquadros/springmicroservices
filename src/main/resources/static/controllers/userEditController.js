@@ -16,7 +16,7 @@
 
         $scope.submitForm = saveUser;
         $scope.user = new User();  
-        $location.search();
+        $scope.message = null;
 
         init();
         
@@ -37,10 +37,15 @@
         function saveUser() {
             UserService.persist().save($scope.user, 
                 function(data) {
-                      console.log('Registro Salvo!');      
+                      console.log('Registro Salvo!' + data);    
+                      $scope.message = null;
                       $location.path('/userlist'); 
-                })
-        }             
+                },
+                function(err) {
+                    console.log('Erro!' + err.statusText); 
+                    $scope.message = err.statusText;
+               }                
+        )}             
                   
     }     	
 })();

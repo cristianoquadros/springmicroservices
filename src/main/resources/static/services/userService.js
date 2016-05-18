@@ -29,11 +29,10 @@
             
             
             function persist(){
-                return $resource(urlBase+ "save",
-                     {id : '@id', 
-                	  user: '@user', 
-                	  role: '@role'}, 
-                     {'save': { method: 'POST' }
+                return $resource(urlBase+ "save",{
+                     id : '@id', 
+                	 user: '@user', 
+                	 role: '@role'
                 });      
             };  
             

@@ -8,10 +8,10 @@
 	'use strict';
 
 	angular.module('app')
-		.controller("UserListController", ['$scope', '$location', 'UserService', UserListController]);
+		.controller("UserListController", ['$scope', '$location', '$window', 'UserService', UserListController]);
     
 	
-    function UserListController ($scope, $location, UserService){
+    function UserListController ($scope, $location,  $window, UserService){
         var self = this;
         $scope.removeUser = removeUser;
         $scope.selectUser = selectUser;
@@ -43,6 +43,7 @@
             UserService.remove().delete({id:self.userSelected.id},
                 function(data) {
                       console.log('Registro Removido!');
+                      $window.location.reload();
                 })   
         }         
     }     	
